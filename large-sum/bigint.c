@@ -20,7 +20,6 @@ static inline size_t num_digits(const int value)
 
 static inline struct bigint *update_to_cap(struct bigint *bi, const size_t new_cap)
 {
-    printf("Update to capacity: %zu\n", new_cap);
     bi->cap = new_cap;
     bi->digits = realloc(bi->digits, bi->cap);
     if (!bi->digits)
