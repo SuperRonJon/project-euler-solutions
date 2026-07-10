@@ -20,6 +20,8 @@ size_t bigfib(struct bigint *x, const size_t max_digits)
         bigint_cpy(&y, &z);
         i++;
     }
+    bigint_free(&y);
+    bigint_free(&z);
     return i;
 }
 
@@ -32,5 +34,6 @@ int main(int argc, char **argv)
     printf("First fibonacci number to %zu digits\nfib(%zu) = ", n, i);
     bigint_print(&x, -1);
     putchar('\n');
+    bigint_free(&x);
     return 0;
 }
