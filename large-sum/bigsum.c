@@ -45,6 +45,8 @@ int main(int argc, char **argv)
             bigint_add(&val, &toadd);
         }
     }
+    if (fp != stdin)
+        fclose(fp);
     bigint_free(&toadd);
 
     timespec_get(&end, TIME_UTC);
