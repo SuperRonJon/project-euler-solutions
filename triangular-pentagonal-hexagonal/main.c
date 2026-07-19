@@ -1,18 +1,18 @@
 #include <stdio.h>
 
-unsigned long long nth_triangular(int _n)
+inline unsigned long long nth_triangular(int _n)
 {
     const unsigned long long n = _n;
     return n * (n + 1) / 2;
 }
 
-unsigned long long nth_pentagonal(int _n)
+inline unsigned long long nth_pentagonal(int _n)
 {
     const unsigned long long n = _n;
     return n * ((3 * n) - 1) / 2;
 }
 
-unsigned long long nth_hexagonal(int _n)
+inline unsigned long long nth_hexagonal(int _n)
 {
     const unsigned long long n = _n;
     return n * ((2 * n) - 1);
@@ -58,7 +58,7 @@ struct all_shapes
     unsigned long long value;
 };
 
-struct all_shapes next_all_shapes(int t_start)
+void next_all_shapes(struct all_shapes *result, int t_start)
 {
     for (int i = t_start; i< 100000; i++)
     {
@@ -69,21 +69,27 @@ struct all_shapes next_all_shapes(int t_start)
             const int is_hexagonal = is_shape(current_triangle, is_pentagonal, HEXAGONAL);
             if (is_hexagonal)
             {
-                struct all_shapes result = {i, is_pentagonal, is_hexagonal, current_triangle};
-                return result;
+                result->triangular_n = i;
+                result->pentagonal_n = is_pentagonal;
+                result->hexagonal_n = is_hexagonal;
+                result->value = current_triangle;
+                return;
             }
         }
     }
-    struct all_shapes result = {0, 0, 0, 0};
-    return result;
+    result->triangular_n = 0;
+    result->pentagonal_n = 0;
+    result->hexagonal_n = 0;
+    result->value = 0;
+    return;
 }
 
 int main(void)
 {
-    const int n = 2;
-    struct all_shapes next = next_all_shapes(n);
+    struct all_shapes next;
+    next_all_shapes(&next, 2);
     printf("First common value T_%d = P_%d = H_%d = %llu\n", next.triangular_n, next.pentagonal_n, next.hexagonal_n, next.value);
 
-    next = next_all_shapes(next.triangular_n + 1);
+    next_all_shapes(&next, next.triangular_n + 1);
     printf("Second common value T_%d = P_%d = H_%d = %llu\n", next.triangular_n, next.pentagonal_n, next.hexagonal_n, next.value);
 }
